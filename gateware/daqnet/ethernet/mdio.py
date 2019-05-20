@@ -5,11 +5,11 @@ Copyright 2018-2019 Adam Greig
 Released under the MIT license; see LICENSE for details.
 """
 
-from nmigen import Module, Signal, Array
-from nmigen.lib.io import TSTriple
+from nmigen import Module, Signal, Array, Elaboratable
+from nmigen.compat.fhdl.specials import TSTriple
 
 
-class MDIO:
+class MDIO(Elaboratable):
     """
     MDIO interface controller.
 
@@ -59,7 +59,10 @@ class MDIO:
         # Create tristate for MDIO
         self.mdio_t = TSTriple()
         # Skip tristate creation when self.mdio=None (for use with simulator)
-        if self.mdio is not None:
+        # Manually set elaboratable flag to prevent build errors
+        if self.mdio is None:
+            self.mdio_t._Elaboratable__used = True
+        else:
             m.submodules += self.mdio_t.get_tristate(self.mdio)
 
         # Create divided clock for MDC

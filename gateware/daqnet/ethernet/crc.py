@@ -5,10 +5,10 @@ Copyright 2018-2019 Adam Greig
 Released under the MIT license; see LICENSE for details.
 """
 
-from nmigen import Module, Signal, Memory
+from nmigen import Module, Signal, Memory, Elaboratable
 
 
-class CRC32:
+class CRC32(Elaboratable):
     """
     Ethernet CRC32
 

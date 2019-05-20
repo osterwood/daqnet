@@ -1,8 +1,8 @@
-from nmigen import Module, Signal, Memory
+from nmigen import Module, Signal, Memory, Elaboratable
 from .utils import LFSR
 
 
-class User:
+class User(Elaboratable):
     def __init__(self):
         self.user_rx_mem = Memory(8, 32)
         self.user_tx_mem = Memory(8, 32,

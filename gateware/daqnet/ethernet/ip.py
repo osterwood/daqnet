@@ -8,10 +8,10 @@ Released under the MIT license; see LICENSE for details.
 import operator
 import functools
 from contextlib import contextmanager
-from nmigen import Module, Signal, Memory, Const
+from nmigen import Module, Signal, Memory, Const, Elaboratable
 
 
-class IPStack:
+class IPStack(Elaboratable):
     """
     IP stack.
 
@@ -161,7 +161,7 @@ class IPStack:
         return m
 
 
-class _StackLayer:
+class _StackLayer(Elaboratable):
     """
     Layer in IP stack.
 
@@ -835,7 +835,7 @@ class _UDPTxLayer(_StackLayer):
         return self.m
 
 
-class _InternetChecksum:
+class _InternetChecksum(Elaboratable):
     """
     Implements the Internet Checksum algorithm from RFC 1071.
 
@@ -1326,6 +1326,7 @@ def test_udp_rx():
 
     ipstack = IPStack(mac_addr, ip4_addr, udp_len, udp_port,
                       rx_mem_port, tx_mem_port, None, user_rx_mem_port)
+    ipstack._Elaboratable__used = True
 
     def testbench():
         yield

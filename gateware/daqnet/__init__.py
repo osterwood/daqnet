@@ -19,3 +19,7 @@ def main():
     frag = top.elaborate(plat)
     plat.build(frag, args.device, "build/", freq=100, emit_v=args.verilog,
                seed=args.seed)
+
+    ## Manually set this flag on the top object to prevent
+    ## erroneousness error message when python runtime is cleaned up
+    frag._Elaboratable__used = True

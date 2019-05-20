@@ -340,9 +340,7 @@ class _Platform:
         io.d_out_0 = tstriple.o
         io.output_enable = tstriple.oe
         m.d.comb += tstriple.i.eq(io.d_in_0)
-        frag = m.lower(self)
-        frag.flatten = True
-        return frag
+        return m
 
 
 class SensorPlatform(_Platform):

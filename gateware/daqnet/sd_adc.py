@@ -6,7 +6,8 @@ Released under the MIT license; see LICENSE for details.
 """
 
 import numpy as np
-from migen import Module, Signal, Instance, Constant, ClockDomain
+from nmigen import Module, Signal, Instance, ClockDomain
+from nmigen.hdl.ast import Const
 
 
 class SDADC(Module):
@@ -36,7 +37,7 @@ class SDADC(Module):
 
         self.specials += Instance(
             "SB_IO",
-            p_PIN_TYPE=Constant(0b00000, 6),
+            p_PIN_TYPE=Const(0b00000, 6),
             p_IO_STANDARD="SB_LVDS_INPUT",
             io_PACKAGE_PIN=inpin,
             o_D_IN_0=self.diff_in,
@@ -116,7 +117,7 @@ class CIC(Module):
 
 
 def test_cic():
-    from migen.sim import run_simulation
+    from nmigen.compat.sim import run_simulation
 
     # Generate 300us worth of samples of a sine wave, 150 samples
     sine = np.cos(2*np.pi*10e3*np.linspace(0, 200e-6, 150))

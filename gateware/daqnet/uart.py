@@ -5,7 +5,9 @@ Copyright 2017 Adam Greig
 Released under the MIT license; see LICENSE for details.
 """
 
-from migen import Module, Signal, If, FSM, NextValue, NextState, Array
+from nmigen import Module, Signal, Array
+from nmigen.compat.fhdl.structure import If
+from nmigen.compat.genlib.fsm import FSM, NextValue, NextState
 
 
 class UARTTx(Module):
@@ -167,7 +169,7 @@ class UARTTxFromMemory(Module):
 
 
 def test_uart_tx():
-    from migen.sim import run_simulation
+    from nmigen.compat.sim import run_simulation
     divider = 10
     data = Signal(8)
     start = Signal()
@@ -204,8 +206,8 @@ def test_uart_tx():
 
 
 def test_uart_tx_from_memory():
-    from migen.sim import run_simulation
-    from migen import Memory
+    from nmigen.compat.sim import run_simulation
+    from nmigen import Memory
 
     # Store some string in the memory, shifted left by 4 so each
     # character takes up 12 bits.

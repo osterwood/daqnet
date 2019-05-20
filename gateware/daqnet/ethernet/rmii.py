@@ -5,12 +5,12 @@ Copyright 2018-2019 Adam Greig
 Released under the MIT license; see LICENSE for details.
 """
 
-from nmigen import Module, Signal, Cat
+from nmigen import Module, Signal, Cat, Elaboratable
 from .crc import CRC32
 from .mac_address_match import MACAddressMatch
 
 
-class RMIIRx:
+class RMIIRx(Elaboratable):
     """
     RMII receive module
 
@@ -99,7 +99,7 @@ class RMIIRx:
         return m
 
 
-class RMIIRxByte:
+class RMIIRxByte(Elaboratable):
     """
     RMII Receive Byte De-muxer
 
@@ -213,7 +213,7 @@ class RMIIRxByte:
         return m
 
 
-class RMIITx:
+class RMIITx(Elaboratable):
     """
     RMII transmit module
 
@@ -351,7 +351,7 @@ class RMIITx:
         return m
 
 
-class RMIITxByte:
+class RMIITxByte(Elaboratable):
     """
     RMII Transmit Byte Muxer
 

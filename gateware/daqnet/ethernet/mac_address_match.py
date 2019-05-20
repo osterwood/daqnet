@@ -8,10 +8,10 @@ Released under the MIT license; see LICENSE for details.
 import operator
 from functools import reduce
 
-from nmigen import Module, Signal
+from nmigen import Module, Signal, Elaboratable
 
 
-class MACAddressMatch:
+class MACAddressMatch(Elaboratable):
     """
     MAC Address Matcher
 

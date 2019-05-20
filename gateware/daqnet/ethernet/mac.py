@@ -5,7 +5,7 @@ Copyright 2018-2019 Adam Greig
 Released under the MIT license; see LICENSE for details.
 """
 
-from nmigen import Module, Signal, Const, Memory, ClockDomain, Cat
+from nmigen import Module, Signal, Const, Memory, ClockDomain, Cat, Elaboratable
 from nmigen.lib.fifo import AsyncFIFO
 from nmigen.hdl.xfrm import DomainRenamer
 from .mdio import MDIO
@@ -13,7 +13,7 @@ from .rmii import RMIIRx, RMIITx
 from ..utils import PulseStretch
 
 
-class MAC:
+class MAC(Elaboratable):
     """
     Ethernet RMII MAC.
 
@@ -146,15 +146,15 @@ class MAC:
         rdr = DomainRenamer({"read": "sync", "write": "rmii"})
         wdr = DomainRenamer({"write": "sync", "read": "rmii"})
         rr = DomainRenamer("rmii")
-        m.submodules.rx_fifo = rdr(rx_fifo.elaborate(platform).lower(platform))
-        m.submodules.tx_fifo = wdr(tx_fifo.elaborate(platform).lower(platform))
-        m.submodules.rmii_rx = rr(rmii_rx.elaborate(platform).lower(platform))
-        m.submodules.rmii_tx = rr(rmii_tx.elaborate(platform).lower(platform))
+        m.submodules.rx_fifo = rdr(rx_fifo.elaborate(platform))
+        m.submodules.tx_fifo = wdr(tx_fifo.elaborate(platform))
+        m.submodules.rmii_rx = rr(rmii_rx.elaborate(platform))
+        m.submodules.rmii_tx = rr(rmii_tx.elaborate(platform))
 
         return m
 
 
-class PHYManager:
+class PHYManager(Elaboratable):
     """
     Manage a PHY over MDIO.
 
